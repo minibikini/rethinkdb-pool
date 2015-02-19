@@ -1,8 +1,8 @@
 'use strict'
 
+debug   = require('debug')('rethinkdb:pool')
 {Pool}  = require 'generic-pool'
 r       = require 'rethinkdb'
-debug   = require('debug')('rethinkdb:pool')
 Promise = require 'bluebird'
 
 module.exports = (options, max, min, idleTimeoutMillis, log) ->
@@ -40,7 +40,7 @@ module.exports = (options, max, min, idleTimeoutMillis, log) ->
       debug 'acquired connection'
       query.run(connection).then (cursorOrResult) ->
         debug 'resolving'
-        cursorOrResult.toArray?() or cursorOrResult
+        cursorOrResult?.toArray?() or cursorOrResult
 
     if done?
       promise.nodeify done
